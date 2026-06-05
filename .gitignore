@@ -1,3 +1,8 @@
 *.db 
 *.log 
 __pycache__/ 
+Git-*.exe 
+Unconfirmed*.crdownload 
+sqlite-tools-*.zip 
+sqlite-tools-*arm64* 
+sqlite-tools-*x64* 
