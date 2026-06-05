@@ -1,0 +1,72 @@
+#!/usr/bin/env python3
+"""
+MkopoSwift GRC Vault Integrity Verifier
+ISO/IEC 27701:2025 – Evidence Trustworthiness
+Scans vendor_procurement\.grc_vault\ for *.sha256 sidecar files,
+recalculates the asset's SHA-256, and compares.
+Outputs an Audit Attestation Report.
+No external dependencies.
+"""
+
+import os
+import hashlib
+from pathlib import Path
+
+VAULT_DIR = Path("vendor_procurement") / ".grc_vault"
+
+def compute_sha256(file_path):
+    """Return SHA-256 hex digest of a file."""
+    h = hashlib.sha256()
+    with open(file_path, 'rb') as f:
+        while chunk := f.read(8192):
+            h.update(chunk)
+    return h.hexdigest()
+
+def verify_vault():
+    if not VAULT_DIR.exists():
+        print("ERROR: Vault directory not found.")
+        return
+
+    all_hashes = list(VAULT_DIR.glob("*.sha256"))
+    if not all_hashes:
+        print("No .sha256 files found in vault – nothing to verify.")
+        return
+
+    print("=" * 60)
+    print("  MkopoSwift GRC – VAULT INTEGRITY ATTESTATION REPORT")
+    print("  Prepared for Tier-1 Kenyan Bank Vendor Review")
+    print("=" * 60)
+
+    results = []
+    for hash_file in sorted(all_hashes):
+        asset_name = hash_file.stem  # e.g. "schema_validation.sql"
+        asset_path = VAULT_DIR / asset_name
+
+        if not asset_path.exists():
+            print(f"[MISSING ASSET] {asset_name} – hash exists but asset file is absent.")
+            results.append(False)
+            continue
+
+        stored_hash = hash_file.read_text().strip()
+        current_hash = compute_sha256(asset_path)
+        if current_hash == stored_hash:
+            print(f"[PASS] {asset_name}")
+            results.append(True)
+        else:
+            print(f"[FAIL] {asset_name} – Potential Unauthorized Compliance Alteration!")
+            print(f"       Stored:  {stored_hash}")
+            print(f"       Current: {current_hash}")
+            results.append(False)
+
+    print("-" * 60)
+    total = len(results)
+    passed = sum(results)
+    if passed == total:
+        print("RESULT: [PASS] All assets integrity verified.")
+        print("STATUS: Tier-1 Kenyan Bank Review – COMPLIANT")
+    else:
+        print(f"RESULT: [FAIL] {total - passed} of {total} assets have integrity issues.")
+        print("ACTION: Investigate and restore evidence from trusted source.")
+
+if __name__ == "__main__":
+    verify_vault()
