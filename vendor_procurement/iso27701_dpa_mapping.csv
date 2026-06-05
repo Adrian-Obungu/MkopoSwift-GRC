@@ -1,0 +1,7 @@
+ISO27701_Clause,Clause_Title,KDPA_Section,Vendor_Question_Example,Evidence_FileName,Status
+A.7.2.1,Consent Management,30,"Describe how you obtain and document explicit consent for each data processing purpose.",consent_ledger_architecture.pdf,Implemented
+A.7.2.2,Data Minimisation,31,"What controls prevent over-collection of personal data?",data_minimisation_schema.sql,Implemented
+A.7.4.3,Incident Response & Notification,43,"Provide your breach notification procedure and demonstrate 72-hour readiness.",breach_triage_automation.py + sample_notification.md,Implemented
+A.7.3.1,Data Subject Rights,40,"How do you handle data subject access requests (DSARs) within 7 days?",dsar_response_procedure.pdf,In Progress
+A.8.2.1,Third Party Data Sharing,46,"List all sub-processors and describe your vendor assessment process.",sub_processor_list_vault/,Implemented
+A.8.3.1,Risk Assessment,41,"Attach your latest Data Protection Impact Assessment (DPIA) for credit scoring.",dpia_credit_scoring_2026.pdf,Implemented
