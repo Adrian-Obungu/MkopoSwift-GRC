@@ -18,7 +18,6 @@
   <i>An offline-first, cryptographically verifiable compliance appliance for Kenyan digital credit providers.</i>
 </div>
 
-*(Note: Replace the banner image path above with a custom graphic once available.)*
 
 ---
 
