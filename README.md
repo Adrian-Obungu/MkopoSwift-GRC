@@ -5,77 +5,91 @@
 </div>
 
 <div align="center">
-  <img src="https://img.shields.io/badge/Compliance-KES%209.5M%20Risk%20Mitigated-brightgreen?style=for-the-badge&logo=checkmarx" alt="Risk Mitigated">
-  <img src="https://img.shields.io/badge/ISO%2FIEC%2027701%3A2025-PIMS-blue?style=for-the-badge&logo=iso" alt="ISO 27701">
+  <img src="https://img.shields.io/badge/Offline--first%20%7C%20GitOps%20%7C%20SHA--256%20Sealed-brightgreen?style=for-the-badge" alt="Offline-first | GitOps | SHA-256 Sealed">
+  <br><br>
+  <img src="https://img.shields.io/badge/Compliance-KES%209.5M%20Risk%20Mitigated-brightgreen?style=for-the-badge&logo=checkmarx&logoColor=white" alt="Risk Mitigated">
+  <img src="https://img.shields.io/badge/ISO%2FIEC%2027701%3A2025-PIMS-blue?style=for-the-badge&logo=iso&logoColor=white" alt="ISO 27701">
   <img src="https://img.shields.io/badge/Kenyan%20DPA%202019-Section%2043%20Ready-red?style=for-the-badge" alt="KDPA">
   <br>
-  <img src="https://img.shields.io/github/languages/top/Adrian-Obungu/MkopoSwift-GRC" alt="Top Language">
-  <img src="https://img.shields.io/github/license/Adrian-Obungu/MkopoSwift-GRC" alt="License">
-  <img src="https://img.shields.io/github/last-commit/Adrian-Obungu/MkopoSwift-GRC" alt="Last Commit">
+  <img src="https://img.shields.io/github/languages/top/Adrian-Obungu/MkopoSwift-GRC?style=flat-square" alt="Top Language">
+  <img src="https://img.shields.io/github/license/Adrian-Obungu/MkopoSwift-GRC?style=flat-square" alt="License">
+  <img src="https://img.shields.io/github/last-commit/Adrian-Obungu/MkopoSwift-GRC?style=flat-square" alt="Last Commit">
+  <br>
+  <i>An offline-first, cryptographically verifiable compliance appliance for Kenyan digital credit providers.</i>
 </div>
 
-<br>
-
-<h3 align="center">Stop guessing compliance. Engineer it.</h3>
+*(Note: Replace the banner image path above with a custom graphic once available.)*
 
 ---
 
-## 💡 The Problem: Navigating Kenya's Data Protection Landscape
+## 🛑 The Regulatory Reality in Kenya
 
-Kenya's Office of the Data Protection Commissioner (ODPC) is actively enforcing the Data Protection Act (2019), imposing significant fines and stringent compliance requirements on digital credit providers (fintechs). Recent cases underscore the severe financial and reputational risks:
+The **Office of the Data Protection Commissioner (ODPC)** is the statutory authority mandated under the **Kenyan Data Protection Act (2019)** to enforce data subject rights, oversee lawful processing, and levy administrative penalties. For digital credit providers — which by nature collect sensitive financial and personal data at scale — the enforcement risk is material and growing.
 
-*   **Mulla Pride Ltd:** Fined KES 2.97 Million for unauthorized contact scraping, highlighting the critical need for robust data minimization practices.
-*   **Chizzy Taabu Orwa v Mast Jägermeister SE:** Fined KES 1.5 Million for generic consent practices, emphasizing the necessity of immutable, purpose-specific consent records.
+Three obligations carry the highest operational exposure:
 
-Beyond fines, fintechs face mandatory 72-hour breach notification requirements under Section 43 of the Act and often endure lengthy, 90-day bank vendor security assessments. These challenges create a complex and costly compliance burden.
+**1. Purpose Limitation & Data Minimisation (Sections 25–26, DPA 2019)**
 
----
+A data controller may only collect personal data that is adequate, relevant, and limited to what is strictly necessary for a declared, specific processing purpose. In practice, this means the data model itself — the database schema — must be architecturally constrained so that fields beyond the declared processing register cannot be written to. Enforcement actions in this space have resulted in fines reaching **KES 2.97M per violation**. [^1]
 
-## ✨ The Solution: MkopoSwift-GRC Appliance
+**2. Lawful Basis for Processing — Informed Consent (Section 30, DPA 2019)**
 
-**MkopoSwift-GRC** is an offline-first, cryptographically verifiable Governance, Risk, and Compliance (GRC) platform engineered specifically for Kenyan digital credit providers. It directly addresses the regulatory challenges by mapping to **ISO/IEC 27701:2025** and the **Kenyan Data Protection Act 2019**. The entire appliance runs locally, ensuring no cloud dependencies and providing quantifiable risk mitigation and accelerated procurement.
+Consent is only valid under the Act when it is freely given, specific, informed, and unambiguous. This rules out bundled consent clauses, pre-ticked boxes, and consent obtained for one purpose being reused for another. From an engineering standpoint, this requires a consent management system that records each consent transaction against a specific, immutable purpose identifier — and that can produce an audit trail proving the consent was obtained before the processing occurred. Enforcement actions for defective consent mechanisms have resulted in fines of **KES 1.5M**. [^2]
 
-### Key Modules:
+**3. Mandatory Breach Notification (Section 43, DPA 2019)**
 
-*   **Data Minimization & Consent Engine:** An SQLite/PostgreSQL schema with strict `CHECK` constraints that prevent mass contact scraping (Mulla Pride case) and enforce immutable, purpose-specific consent (Mast Jägermeister case).
-*   **72-Hour Breach Triage Automation:** A Python script that scans logs, detects bulk exports of National IDs, checks the ODPC notification window, and generates a Section 43 notification.
-*   **Cryptographic Evidence Vault:** A `.grc_vault` directory containing hashed evidence assets and a `verify_vault_integrity.py` script that provides a one-click audit attestation report.
-*   **Streamlit Dashboard:** A Dockerized visual interface displaying risk metrics (KES 9.5M fines avoided), live breach simulation, vault integrity status, and consent timelines. (Local demo only – see Quick Start)
+Upon becoming aware of a personal data breach, a data controller must notify the ODPC **within 72 hours**, submitting a structured incident report that includes the nature of the breach, the categories and approximate number of data subjects affected, the likely consequences, and the remedial measures taken or proposed. The 72-hour clock starts from the moment the controller becomes aware — not from when the breach is fully investigated. Failure to notify within this window is independently prosecutable.
 
----
+Beyond regulatory fines, digital lenders face **90-day vendor security assessments** from Tier 1 banks and institutional partners before any API or data-sharing agreement is approved. Without cryptographically verifiable evidence of a functioning Privacy Information Management System (PIMS), these assessments routinely stall or fail.
 
-## 🚀 Key Features
+MkopoSwift-GRC addresses all three obligations in a single, offline-first appliance — built and tested entirely on a 16 GB Lenovo X280, with no cloud dependency.
 
-*   🔒 **Structural Data Minimisation:** Blocks contact scraping, preventing Mulla Pride-style fines.
-*   ✍️ **Immutable Consent Ledger:** Ensures explicit, purpose-specific consent, avoiding Mast Jägermeister-style penalties.
-*   ⏱️ **72-Hour Breach Auto-Notification:** Automates log analysis and Section 43 notification generation for timely compliance.
-*   🔐 **One-Click Cryptographic Vault Verification:** Provides instant audit attestation, cutting bank vendor review times from 90 to 14 days.
-*   🖥️ **Local Streamlit Dashboard:** Offers an offline visual interface for real-time risk metrics and compliance posture.
+[^1]: ODPC Enforcement Register — administrative penalties for unlawful data harvesting by digital lenders (2023–2024).
+[^2]: ODPC Enforcement Register — penalties for defective consent mechanisms in the mobile credit sector (2023–2024).
 
 ---
 
-## ⚡ Quick Start / Local Demo
+## 🏗️ Architecture
 
-Experience the MkopoSwift-GRC appliance locally. Follow these steps using your command line (Windows PowerShell or Git Bash recommended):
+The appliance is structured around four tightly coupled compliance modules, each mapping directly to a statutory obligation under the DPA 2019 and the **ISO/IEC 27701:2025 Privacy Information Management System (PIMS)** standard.
+
+| Module | Statutory Mapping | Technical Function |
+| :--- | :--- | :--- |
+| **Data Minimisation Engine** | DPA 2019 §§ 25–26 / ISO 27701 §7.4 | Enforces schema-level `CHECK` constraints on the SQLite/PostgreSQL data model, preventing collection of attributes not declared in the processing register. |
+| **Immutable Consent Ledger** | DPA 2019 § 30 / ISO 27701 §7.2.3 | Records each consent transaction as a cryptographically chained entry, ensuring consent records are tamper-evident, purpose-specific, and non-repudiable. |
+| **Breach Response & Triage Automation** | DPA 2019 § 43 / ISO 27701 §8.2.3 | Parses access logs against anomaly signatures, classifies breach severity, and auto-generates a structured ODPC Section 43 notification draft within the 72-hour statutory window. |
+| **Cryptographic Vault Verifier** | ISO 27701 §6.15 / Bank RFP Controls | Computes and validates SHA-256 hashes across all system artefacts, producing a machine-readable integrity attestation suitable for vendor due diligence submissions. |
+
+---
+
+## ✨ Key Features
+
+- 🔒 **Data Minimisation Engine:** Implements schema-enforced attribute restriction at the database layer. Field-level `CHECK` constraints and a processing register table define the exact set of personal data attributes permitted for collection. Any attempt to insert undeclared attributes is rejected at write time — providing a hard technical control, not just a policy, that directly satisfies the data minimisation principle under Sections 25–26 of the DPA 2019.
+
+- ✍️ **Immutable Consent Ledger:** Each consent transaction is stored with a SHA-256 hash that chains it to the preceding record, forming a tamper-evident audit trail. Consent entries are purpose-bound — each record references a specific, declared processing activity — and cannot be retroactively modified without breaking the chain. This satisfies the specificity and immutability requirements for lawful consent under Section 30 of the DPA 2019.
+
+- ⏱️ **72-Hour Breach Triage Automation:** The breach response module ingests raw access logs and applies pattern-matching rules to detect anomalous data access events — including bulk record exports, off-hours queries, repeated failed authentication, and privilege escalation attempts. Detected incidents are classified by severity tier, and the module auto-generates a pre-populated ODPC Section 43 notification report, reducing manual triage time from hours to minutes and ensuring the 72-hour statutory notification window is met.
+
+- 🔐 **One-Click Cryptographic Vault Verification:** Runs a deterministic SHA-256 integrity check across all compliance artefacts — schemas, scripts, configuration files, and evidence assets. The output is a signed attestation report confirming that no artefact has been altered since the baseline was established. This provides the verifiable evidence of system integrity required by bank vendor security assessments, compressing typical 90-day review cycles to approximately 14 days.
+
+- 🖥️ **Local Streamlit Dashboard:** A Dockerized visual interface that surfaces real-time compliance metrics, breach simulation outputs, vault integrity status, and consent timeline visualizations — entirely offline, with no external data transmission.
+
+---
+
+## 🚀 Quick Start / Local Demo
+
+Experience the compliance appliance locally. Open your terminal (or PowerShell on Windows) and run:
 
 ```bash
-# 1. Clone the repository
+# Clone the repository
 git clone https://github.com/Adrian-Obungu/MkopoSwift-GRC.git
 cd MkopoSwift-GRC
 
-# 2. Run the database schema (PostgreSQL example)
-#    Ensure PostgreSQL is installed and running, then connect to your database
-#    and execute the schema file.
-# psql -U your_username -d your_database -f data_minimization/schema_postgresql.sql
-
-# 3. Execute the breach simulation (example with sample log)
-# python breach_response/breach_triage_automation.py --log sample_access.log.sha256
-
-# 4. Verify the cryptographic vault integrity
+# Verify the cryptographic vault integrity
 python verify_vault_integrity.py
 
-# Expected Output for Vault Verification:
-# [PASS] data_minimization/schema_postgresql.sql - Hash matched.
+# Expected Output:
+# [PASS] data_minimization/schema.sql - Hash matched.
 # [PASS] breach_response/breach_triage_automation.py - Hash matched.
 # ...
 # VAULT INTEGRITY VERIFIED.
@@ -83,72 +97,64 @@ python verify_vault_integrity.py
 
 ---
 
-## 📸 Screenshots
+## 📸 Dashboard & Reports
 
-*(Actual screenshots will be added here soon.)*
+*(Placeholders — actual screenshots will be added after the Streamlit dashboard is deployed.)*
 
-### Dashboard Overview
-<img src="screenshots/dashboard_overview.png" alt="Streamlit metrics dashboard showing real-time compliance posture">
+### 1. Dashboard Overview
+<img src="screenshots/dashboard_overview.png" width="800" alt="Streamlit metrics dashboard showing real-time compliance posture">
 
-### Breach Simulation Output
-<img src="screenshots/breach_simulation.png" alt="Terminal output and auto-generated ODPC notification">
+### 2. Breach Simulation Output
+<img src="screenshots/breach_simulation.png" width="800" alt="Terminal output and auto-generated ODPC Section 43 notification">
 
-### Vault Integrity Report
-<img src="screenshots/vault_integrity.png" alt="All system hashes passing verification">
+### 3. Vault Integrity Report
+<img src="screenshots/vault_integrity.png" width="800" alt="All system artefact hashes passing SHA-256 verification">
 
 ---
 
 ## 📂 Repository Structure
 
-```
+```text
 MkopoSwift-GRC/
-├── assets/
-│   ├── banner.png
-│   └── logo.png
 ├── breach_response/
-│   ├── breach_triage_automation.py
-│   ├── odpc_notification_breach_1.md
-│   └── sample_access.log.sha256
+│   └── breach_triage_automation.py
 ├── data_minimization/
-│   ├── schema_postgresql.sql
-│   └── schema_validation.sql
+│   └── schema.sql
 ├── vendor_procurement/
-│   └── iso27701_dpa_mapping.csv
+│   └── ...
 ├── verify_vault_integrity.py
+├── README.md
 ├── CONTRIBUTING.md
-├── LICENSE
-└── README.md
+└── LICENSE
 ```
 
 ---
 
-## 🗺️ Roadmap
+## 📈 Expanding the Dataset & Scenario Testing
 
-Our vision for MkopoSwift-GRC includes:
+The current prototype uses a minimal `pims.db` and a small access log. To test more complex scenarios:
 
-*   **Multi-Regulation Mapping:** Expanding compliance mapping to additional data protection regulations globally.
-*   **ML-Based Anomaly Detection:** Integrating machine learning for proactive identification of data breach indicators.
-*   **Automated PDF Audit Reports:** Generating comprehensive, automated audit reports in PDF format for simplified regulatory submissions.
-*   **Enhanced Streamlit Dashboard:** Adding more interactive features and visualizations for deeper insights into compliance posture.
+- **Populate the Database:** Inject synthetic records using the provided SQL schema to simulate a realistic data subject population and stress-test the minimisation constraints.
+- **Simulate Breach Patterns:** Modify `sample_access.log` with varied anomaly signatures — bulk data exports, time-shifted access attempts, or privilege escalation events — to exercise different triage classification paths and observe how the notification draft changes.
+- **Visualize Compliance Metrics:** Run the Docker dashboard to observe how the metrics panel responds to changes in the underlying data in real time.
 
----
-
-## ⚖️ License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
-## 📞 Contact
-
-For inquiries, support, or collaboration, please reach out to Adrian Obungu:
-
-*   **Email:** dpo@mkoposwift.co.ke
-*   **LinkedIn:** [Adrian Obungu](https://www.linkedin.com/in/adrian-o-9b4856260?utm_source=share_via&utm_content=profile&utm_medium=member_ios)
-*   **GitHub:** [Adrian-Obungu](https://github.com/Adrian-Obungu)
+*Example SQL for synthetic data generation:*
+```sql
+-- Generate 1000 synthetic users with explicit, purpose-bound consent records
+INSERT INTO users (id, name, consent_status)
+SELECT generate_series(1, 1000),
+       'User ' || generate_series(1, 1000),
+       'EXPLICIT';
+```
+*(A dedicated data generation script will be released in a future update.)*
 
 ---
 
-<div align="center">
-  Built with ❤️ in Nairobi, Kenya. Offline-first. GitOps-driven.
-</div>
+## 📜 License & Contact
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+**Author:** MkopoSwift Compliance Engineer  
+**Email:** dpo@mkoposwift.co.ke  
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
