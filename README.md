@@ -41,7 +41,7 @@ Upon becoming aware of a personal data breach, a data controller must notify the
 
 Beyond regulatory fines, digital lenders face **90-day vendor security assessments** from Tier 1 banks and institutional partners before any API or data-sharing agreement is approved. Without cryptographically verifiable evidence of a functioning Privacy Information Management System (PIMS), these assessments routinely stall or fail.
 
-MkopoSwift-GRC addresses all three obligations in a single, offline-first appliance — built and tested entirely on a 16 GB Lenovo X280, with no cloud dependency.
+MkopoSwift-GRC addresses all three obligations in a single, offline-first appliance — built and tested entirely on a 16 GB 512 GiG PC, with no cloud dependency.
 
 [^1]: ODPC Enforcement Register — administrative penalties for unlawful data harvesting by digital lenders (2023–2024).
 [^2]: ODPC Enforcement Register — penalties for defective consent mechanisms in the mobile credit sector (2023–2024).
@@ -153,7 +153,7 @@ SELECT generate_series(1, 1000),
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**Author:** MkopoSwift Compliance Engineer  
-**Email:** dpo@mkoposwift.co.ke  
+**Author:** Adrian S. Obungu  
+**Email:** Adrian.obungu@gmail.com
 
 This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
